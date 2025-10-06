@@ -93,7 +93,7 @@ func (e *Emulator) command_handler(comm string, flags map[string]string, args []
 			return "unknown flag"
 		}
 		for _, record := range e.vfs {
-			if record[0] == e.path && args[0] == record[1] {
+			if (e.path+"/"+args[0] == record[0]+"/"+record[1]) || ("~"+args[0] == record[0]+"/"+record[1]) {
 				n, _ := strconv.Atoi(string(record[5]))
 				if (record[4] == e.user && n/100 >= 4) || (record[4] != e.user && n%10 >= 4) || e.user == "root" {
 					res := DecodeFromBase64(record[3])
@@ -112,7 +112,7 @@ func (e *Emulator) command_handler(comm string, flags map[string]string, args []
 		}
 		nStr, ok := flags["-n"]
 		for _, record := range e.vfs {
-			if record[0] == e.path && args[0] == record[1] {
+			if (e.path+"/"+args[0] == record[0]+"/"+record[1]) || ("~"+args[0] == record[0]+"/"+record[1]) {
 				n, _ := strconv.Atoi(string(record[5]))
 				if !((record[4] == e.user && n/100 >= 4) || (record[4] != e.user && n%10 >= 4) || e.user == "root") {
 					return "no rights"
