@@ -1,6 +1,7 @@
 package app
 
 import (
+	"encoding/base64"
 	"fmt"
 	"strconv"
 	"strings"
@@ -85,7 +86,7 @@ func (e *Emulator) command_handler(comm string, flags map[string]string, args []
 		}
 		return "not found"
 	case "rev":
-		if len(args) > 0 {
+		if len(args) > 1 {
 			return "unknown args"
 		}
 		if len(flags) > 0 {
@@ -94,8 +95,9 @@ func (e *Emulator) command_handler(comm string, flags map[string]string, args []
 		for _, record := range e.vfs {
 			if record[0] == e.path && args[0] == record[1] {
 				n, _ := strconv.Atoi(string(record[5]))
-				if (record[4] == e.user && n/100 >= 4) || (record[4] != e.user && n%10 >= 4) {
-					return reverse(record[3])
+				if (record[4] == e.user && n/100 >= 4) || (record[4] != e.user && n%10 >= 4) || e.user == "root" {
+					res := DecodeFromBase64(record[3])
+					return reverse(res)
 				}
 				return "no rights"
 			}
@@ -115,6 +117,7 @@ func (e *Emulator) command_handler(comm string, flags map[string]string, args []
 				if !((record[4] == e.user && n/100 >= 4) || (record[4] != e.user && n%10 >= 4) || e.user == "root") {
 					return "no rights"
 				}
+				res := DecodeFromBase64(record[3])
 				if ok {
 					if len(flags) > 1 {
 						return "unknown flag"
@@ -123,9 +126,9 @@ func (e *Emulator) command_handler(comm string, flags map[string]string, args []
 					if err != nil {
 						return "invalid command"
 					}
-					return firstNString(record[3], n)
+					return firstNString(res, n)
 				}
-				return firstNString(record[3], 10)
+				return firstNString(res, 10)
 
 			}
 		}
@@ -207,4 +210,12 @@ func correctRights(s string) bool {
 		}
 	}
 	return true
+}
+
+func EncodeToBase64(input string) string {
+	return base64.StdEncoding.EncodeToString([]byte(input))
+}
+func DecodeFromBase64(input string) string {
+	decoded, _ := base64.StdEncoding.DecodeString(input)
+	return string(decoded)
 }
