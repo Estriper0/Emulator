@@ -17,11 +17,11 @@ func (e *Emulator) command_reader(r io.Reader, fromFile bool) {
 				fmt.Println("script complete")
 				break
 			}
-			fmt.Printf("root@%s:%s$ ", e.user, e.path)
+			fmt.Printf("%s@localhost:%s$ ", e.user, e.path)
 			input = scanner.Text()
 			fmt.Println(input)
 		} else {
-			fmt.Printf("root@%s:%s$ ", e.user, e.path)
+			fmt.Printf("%s@localhost:%s$ ", e.user, e.path)
 			if !scanner.Scan() {
 				break
 			}
