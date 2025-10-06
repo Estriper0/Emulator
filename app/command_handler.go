@@ -66,7 +66,7 @@ func (e *Emulator) command_handler(comm string, flags map[string]string, args []
 		}
 		for _, record := range e.vfs {
 			if len(args) == 0 {
-				return "no path"
+				return "empty path"
 			} else if args[0] == "." {
 				e.path = "~"
 				return ""
