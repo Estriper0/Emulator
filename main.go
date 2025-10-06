@@ -9,7 +9,7 @@ import (
 
 func main() {
 	vfsPath := flag.String("vfs", "vfs.csv", "path to vfs")
-	startPath := flag.String("start", "", "path to start script")
+	startPath := flag.String("start_script", "", "path to start script")
 	flag.Parse()
 
 	emulator := app.NewEmulator(*startPath, *vfsPath)
