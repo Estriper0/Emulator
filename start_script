@@ -1,0 +1,23 @@
+ls
+cd home
+ls -l
+head hello.txt
+head -n 1 hello.txt
+head -n 3 hello.txt
+rev hello.txt
+chmod 377 hello.txt
+head hello.txt
+rev hello.txt
+chmod 777 hello.txt
+head qwerty.txt
+rev qwerty.txt
+chmod 777 qwerty.txt
+cd /start
+ls -l
+head start.txt
+rev start.txt
+chmod 777 start.txt
+head start.txt
+chmod 377 start.txt
+cd .
+exit
